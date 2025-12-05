@@ -11,14 +11,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Download AutoHotkey
+    - name: Download AutoHotkey Portable
       run: |
-        curl -L -o ahk.zip https://www.autohotkey.com/download/ahk.zip
-        tar -xf ahk.zip
+        curl -L -o ahk.zip https://github.com/AutoHotkey/AutoHotkey/releases/download/v1.1.37.02/AutoHotkey_1.1.37.02.zip
+        powershell Expand-Archive ahk.zip -DestinationPath ahk
 
     - name: Compile script
       run: |
-        Ahk2Exe.exe /in mouse_move.ahk /out mouse_move.exe
+        ahk\Compiler\Ahk2Exe.exe /in mouse_move.ahk /out mouse_move.exe
 
     - name: Upload EXE
       uses: actions/upload-artifact@v4
