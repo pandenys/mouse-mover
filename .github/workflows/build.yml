@@ -1,0 +1,27 @@
+name: Build AHK EXE
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Download AutoHotkey
+      run: |
+        curl -L -o ahk.zip https://www.autohotkey.com/download/ahk.zip
+        tar -xf ahk.zip
+
+    - name: Compile script
+      run: |
+        Ahk2Exe.exe /in mouse_move.ahk /out mouse_move.exe
+
+    - name: Upload EXE
+      uses: actions/upload-artifact@v3
+      with:
+        name: mouse_move_exe
+        path: mouse_move.exe
