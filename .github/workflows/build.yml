@@ -16,6 +16,10 @@ jobs:
         curl -L -o ahk.zip https://github.com/AutoHotkey/AutoHotkey/releases/download/v1.1.37.02/AutoHotkey_1.1.37.02.zip
         powershell Expand-Archive ahk.zip -DestinationPath ahk
 
+    - name: Create output directory
+      run: |
+        mkdir output
+
     - name: Compile script
       run: |
         ahk\Compiler\Ahk2Exe.exe /in mouse_move.ahk /out output\mouse_move.exe
