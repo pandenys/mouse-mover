@@ -1,6 +1,6 @@
 name: Build AHK EXE
 
-on:
+on: 
   push:
     branches: [ "main" ]
 
