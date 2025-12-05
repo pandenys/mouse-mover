@@ -18,10 +18,14 @@ jobs:
 
     - name: Compile script
       run: |
-        ahk\Compiler\Ahk2Exe.exe /in mouse_move.ahk /out mouse_move.exe
+        ahk\Compiler\Ahk2Exe.exe /in mouse_move.ahk /out output\mouse_move.exe
+
+    - name: List output files (debug)
+      run: |
+        dir output
 
     - name: Upload EXE
       uses: actions/upload-artifact@v4
       with:
         name: mouse_move_exe
-        path: mouse_move.exe
+        path: output\mouse_move.exe
