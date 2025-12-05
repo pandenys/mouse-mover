@@ -14,26 +14,24 @@ jobs:
     - name: Download AutoHotkey Portable
       run: |
         curl -L -o ahk.zip https://github.com/AutoHotkey/AutoHotkey/releases/download/v1.1.37.02/AutoHotkey_1.1.37.02.zip
-        powershell Expand-Archive ahk.zip -DestinationPath ahk
+        Expand-Archive ahk.zip -DestinationPath ahk
 
     - name: Create output directory
       run: |
-        mkdir output
+        New-Item -ItemType Directory -Force -Path output
 
-    - name: Find Ahk2Exe
+    - name: Compile script
       run: |
-        dir ahk /s /b | findstr Ahk2Exe.exe
-
-    - name: Compile script (auto path)
-      run: |
-        for /f "delims=" %i in ('dir ahk /s /b ^| findstr Ahk2Exe.exe') do "%i" /in mouse_move.ahk /out output\mouse_move.exe
+        $ahk2exe = Get-ChildItem -Path ahk -Recurse -Filter Ahk2Exe.exe | Select-Object -First 1
+        if ($ahk2exe -eq $null) { throw "Ahk2Exe.exe not found" }
+        & $ahk2exe.FullName /in mouse_move.ahk /out (Join-Path $PWD "output\mouse_move.exe")
 
     - name: List output files
       run: |
-        dir output
+        Get-ChildItem output
 
     - name: Upload EXE
       uses: actions/upload-artifact@v4
       with:
         name: mouse_move_exe
-        path: output\mouse_move.exe
+        path: output/mouse_move.exe
