@@ -1,6 +1,6 @@
 name: Build AHK EXE
 
-on: 
+on:
   push:
     branches: [ "main" ]
 
@@ -11,10 +11,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Download AutoHotkey Portable
+    - name: Download Ahk2Exe
       run: |
-        curl -L -o ahk.zip https://github.com/AutoHotkey/AutoHotkey/releases/download/v1.1.37.02/AutoHotkey_1.1.37.02.zip
-        Expand-Archive ahk.zip -DestinationPath ahk
+        Invoke-WebRequest "https://github.com/AutoHotkey/AutoHotkey/releases/download/v1.1.37.02/Ahk2Exe.zip" -OutFile Ahk2Exe.zip
+        Expand-Archive Ahk2Exe.zip -DestinationPath Ahk2Exe
 
     - name: Create output directory
       run: |
@@ -22,9 +22,7 @@ jobs:
 
     - name: Compile script
       run: |
-        $ahk2exe = Get-ChildItem -Path ahk -Recurse -Filter Ahk2Exe.exe | Select-Object -First 1
-        if ($ahk2exe -eq $null) { throw "Ahk2Exe.exe not found" }
-        & $ahk2exe.FullName /in mouse_move.ahk /out (Join-Path $PWD "mouse_move.exe")
+        & ".\Ahk2Exe\Ahk2Exe.exe" /in mouse_move.ahk /out (Join-Path $PWD "output\mouse_move.exe")
 
     - name: List output files
       run: |
@@ -34,4 +32,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: mouse_move_exe
-        path: mouse_move.exe
+        path: output/mouse_move.exe
