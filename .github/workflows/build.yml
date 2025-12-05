@@ -24,7 +24,7 @@ jobs:
       run: |
         $ahk2exe = Get-ChildItem -Path ahk -Recurse -Filter Ahk2Exe.exe | Select-Object -First 1
         if ($ahk2exe -eq $null) { throw "Ahk2Exe.exe not found" }
-        & $ahk2exe.FullName /in mouse_move.ahk /out (Join-Path $PWD "output\mouse_move.exe")
+        & $ahk2exe.FullName /in mouse_move.ahk /out (Join-Path $PWD "mouse_move.exe")
 
     - name: List output files
       run: |
@@ -34,4 +34,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: mouse_move_exe
-        path: output/mouse_move.exe
+        path: mouse_move.exe
