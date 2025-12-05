@@ -20,11 +20,15 @@ jobs:
       run: |
         mkdir output
 
-    - name: Compile script
+    - name: Find Ahk2Exe
       run: |
-        ahk\Compiler\Ahk2Exe.exe /in mouse_move.ahk /out output\mouse_move.exe
+        dir ahk /s /b | findstr Ahk2Exe.exe
 
-    - name: List output files (debug)
+    - name: Compile script (auto path)
+      run: |
+        for /f "delims=" %i in ('dir ahk /s /b ^| findstr Ahk2Exe.exe') do "%i" /in mouse_move.ahk /out output\mouse_move.exe
+
+    - name: List output files
       run: |
         dir output
 
